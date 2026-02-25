@@ -24,5 +24,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Quality Gate') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
     }
 }
