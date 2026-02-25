@@ -19,16 +19,9 @@ pipeline {
                 branch 'dev'
             }
             steps {
-                echo "Running SonarQube scan for dev branch"
-            }
-        }
-
-        stage('Deploy to Production') {
-            when {
-                branch 'prod'
-            }
-            steps {
-                echo "Deploying to production..."
+                withSonarQubeEnv('SonarServer') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=maven-webapp'
+                }
             }
         }
     }
